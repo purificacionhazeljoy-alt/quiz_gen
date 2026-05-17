@@ -60,6 +60,37 @@ $recentQuizzes = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     <link rel="stylesheet" href="style.css">
 
+        <style>
+        .stat-card {
+            border-radius: 16px;
+        }
+
+        .action-card {
+            transition: 0.2s ease;
+            border-radius: 16px;
+        }
+
+        .action-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .dashboard-table-card {
+            height: 300px;
+            border-radius: 16px;
+        }
+
+        .dashboard-scroll {
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .dashboard-scroll thead th {
+            position: sticky;
+            top: 0;
+            z-index: 5;
+        }
+    </style>
+
 </head>
 
 <body style="background:#f4f6f9;">
