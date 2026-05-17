@@ -337,20 +337,6 @@ INSERT INTO `quiz_questions` (`id`, `quiz_id`, `question_id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `uploaded_files`
---
-
-CREATE TABLE `uploaded_files` (
-  `file_id` int(11) NOT NULL,
-  `teacher_id` int(11) NOT NULL,
-  `filename` varchar(255) NOT NULL,
-  `file_type` varchar(50) NOT NULL,
-  `uploaded_at` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `users`
 --
 
@@ -493,12 +479,6 @@ ALTER TABLE `quiz_questions`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT for table `uploaded_files`
---
-ALTER TABLE `uploaded_files`
-  MODIFY `file_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
-
---
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
@@ -546,13 +526,6 @@ ALTER TABLE `quizzes`
 ALTER TABLE `quiz_attempts`
   ADD CONSTRAINT `fk_attempt_quiz` FOREIGN KEY (`quiz_id`) REFERENCES `quizzes` (`quiz_id`) ON DELETE CASCADE,
   ADD CONSTRAINT `fk_attempt_student` FOREIGN KEY (`student_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE;
-
---
--- Constraints for table `uploaded_files`
---
-ALTER TABLE `uploaded_files`
-  ADD CONSTRAINT `fk_file_teacher` FOREIGN KEY (`teacher_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE;
-COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
