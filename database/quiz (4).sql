@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1:3308
--- Generation Time: May 16, 2026 at 04:21 PM
+-- Host: 127.0.0.1
+-- Generation Time: May 17, 2026 at 04:03 PM
 -- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- PHP Version: 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,8 +18,82 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `quiz`
+-- Database: `generator`
 --
+
+DELIMITER $$
+--
+-- Procedures
+--
+CREATE DEFINER=`root`@`localhost` PROCEDURE `AddCheat` (IN `p_student_id` INT, IN `p_quiz_id` INT, IN `p_activity` VARCHAR(255))   BEGIN
+
+    INSERT INTO cheating_logs (student_id, quiz_id, activity)
+    VALUES (p_student_id, p_quiz_id, p_activity);
+
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `AddLog` (IN `p_user_id` INT, IN `p_activity` TEXT, IN `p_type` ENUM('login','quiz','security','admin'))   BEGIN
+
+    INSERT INTO activity_logs (user_id, activity, log_type)
+    VALUES (p_user_id, p_activity, p_type);
+
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `AddQuiz` (IN `p_teacher_id` INT, IN `p_title` VARCHAR(255), IN `p_type` VARCHAR(50), IN `p_difficulty` VARCHAR(20))   BEGIN
+
+    INSERT INTO quizzes (
+        teacher_id, title, quiz_type, difficulty
+    )
+    VALUES (
+        p_teacher_id, p_title, p_type, p_difficulty
+    );
+
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `AddUser` (IN `p_id` INT, IN `p_firstname` VARCHAR(50), IN `p_lastname` VARCHAR(50), IN `p_email` VARCHAR(100), IN `p_password` VARCHAR(255), IN `p_role` ENUM('admin','teacher','student'))   BEGIN
+
+    INSERT INTO users (
+        user_id, firstname, lastname, email, password, role, status
+    )
+    VALUES (
+        p_id, p_firstname, p_lastname, p_email, p_password, p_role, 'active'
+    );
+
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `GetTopStudents` ()   BEGIN
+    SELECT 
+        users.user_id,
+        CONCAT(users.firstname, ' ', users.lastname) AS fullname,
+        AVG(quiz_attempts.score) AS average_score
+    FROM quiz_attempts
+    JOIN users 
+        ON quiz_attempts.student_id = users.user_id
+    GROUP BY users.user_id;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `StartAttempt` (IN `p_student_id` INT, IN `p_quiz_id` INT)   BEGIN
+
+    INSERT INTO quiz_attempts (
+        student_id, quiz_id, status
+    )
+    VALUES (
+        p_student_id, p_quiz_id, 'ongoing'
+    );
+
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SubmitAttempt` (IN `p_attempt_id` INT, IN `p_score` INT, IN `p_total` INT)   BEGIN
+
+    UPDATE quiz_attempts
+    SET score = p_score,
+        total_questions = p_total,
+        status = 'submitted'
+    WHERE attempt_id = p_attempt_id;
+
+END$$
+
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -97,7 +171,8 @@ INSERT INTO `activity_logs` (`log_id`, `user_id`, `activity`, `created_at`, `log
 (55, 3, 'Cheating detected: paste', '2026-05-16 13:44:52', 'security'),
 (56, 3, 'Answered question in quiz: hards', '2026-05-16 13:44:54', 'quiz'),
 (57, 3, 'Finished quiz: hards', '2026-05-16 13:44:54', 'quiz'),
-(58, 2, 'User logged in', '2026-05-16 14:05:22', 'login');
+(58, 2, 'User logged in', '2026-05-16 14:05:22', 'login'),
+(12345, 2, 'act 1', '2026-05-17 11:32:17', 'quiz');
 
 -- --------------------------------------------------------
 
@@ -337,20 +412,6 @@ INSERT INTO `quiz_questions` (`id`, `quiz_id`, `question_id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `uploaded_files`
---
-
-CREATE TABLE `uploaded_files` (
-  `file_id` int(11) NOT NULL,
-  `teacher_id` int(11) NOT NULL,
-  `filename` varchar(255) NOT NULL,
-  `file_type` varchar(50) NOT NULL,
-  `uploaded_at` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `users`
 --
 
@@ -373,9 +434,31 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`user_id`, `firstname`, `middlename`, `lastname`, `email`, `password`, `role`, `profile_picture`, `status`, `created_at`) VALUES
 (1, 'Hazel', 'Octavio', 'Purificacion', 'hazel21@gmail.com', '$2y$10$HDHE22CfOB86m2uY6vE9tOb7XtGp113phSSn1s0WTNe/Q8yeB665a', 'admin', NULL, 'active', '2026-05-10 23:51:01'),
-(2, 'Elmira', '', 'Miranda', 'emira@gmail.com', '$2y$10$56boHuQaZ.s4xEVovPSi2uXrHiXB8Bv9TfX079gOcv3zNECSfHK/6', 'teacher', NULL, 'active', '2026-05-11 01:11:28'),
+(2, 'Elmira', 'Manzano', 'Miranda', 'emira@gmail.com', '$2y$10$56boHuQaZ.s4xEVovPSi2uXrHiXB8Bv9TfX079gOcv3zNECSfHK/6', 'teacher', NULL, 'active', '2026-05-11 01:11:28'),
 (3, 'Chrizen', 'G.', 'Alcantara', 'alcantara@gmail.com', '$2y$10$F6dWmk6OST8Le8sDyV8V5eamLGFrwnL2RfYvqbFjGy.fml86dx.Oy', 'student', NULL, 'active', '2026-05-11 01:40:20'),
-(4, 'al', NULL, '', 'al@gmail.com', '$2y$10$F6dWmk6OST8Le8sDyV8V5eamLGFrwnL2RfYvqbFjGy.fml86dx.Oy', 'student', NULL, 'active', '2026-05-14 00:50:32');
+(4, 'als', NULL, '', 'al@gmail.com', '$2y$10$F6dWmk6OST8Le8sDyV8V5eamLGFrwnL2RfYvqbFjGy.fml86dx.Oy', 'student', NULL, 'active', '2026-05-14 00:50:32');
+
+--
+-- Triggers `users`
+--
+DELIMITER $$
+CREATE TRIGGER `after_user_insert_cheating` AFTER INSERT ON `users` FOR EACH ROW BEGIN
+
+    INSERT INTO cheating_logs (student_id, quiz_id, activity)
+    VALUES (NEW.user_id, 29, 'Account created (system log)');
+
+END
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `alter_user_insert_activity` AFTER INSERT ON `users` FOR EACH ROW BEGIN
+
+    INSERT INTO activity_logs (user_id, activity, log_type)
+    VALUES (NEW.user_id, 'User registered', 'admin');
+
+END
+$$
+DELIMITER ;
 
 --
 -- Indexes for dumped tables
@@ -433,13 +516,6 @@ ALTER TABLE `quiz_questions`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `uploaded_files`
---
-ALTER TABLE `uploaded_files`
-  ADD PRIMARY KEY (`file_id`),
-  ADD KEY `fk_file_teacher` (`teacher_id`);
-
---
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
@@ -454,7 +530,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `activity_logs`
 --
 ALTER TABLE `activity_logs`
-  MODIFY `log_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
+  MODIFY `log_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12354;
 
 --
 -- AUTO_INCREMENT for table `attempt_answers`
@@ -466,7 +542,7 @@ ALTER TABLE `attempt_answers`
 -- AUTO_INCREMENT for table `cheating_logs`
 --
 ALTER TABLE `cheating_logs`
-  MODIFY `cheat_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `cheat_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT for table `questions`
@@ -493,16 +569,10 @@ ALTER TABLE `quiz_questions`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT for table `uploaded_files`
---
-ALTER TABLE `uploaded_files`
-  MODIFY `file_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
-
---
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12345690;
 
 --
 -- Constraints for dumped tables
@@ -546,12 +616,6 @@ ALTER TABLE `quizzes`
 ALTER TABLE `quiz_attempts`
   ADD CONSTRAINT `fk_attempt_quiz` FOREIGN KEY (`quiz_id`) REFERENCES `quizzes` (`quiz_id`) ON DELETE CASCADE,
   ADD CONSTRAINT `fk_attempt_student` FOREIGN KEY (`student_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE;
-
---
--- Constraints for table `uploaded_files`
---
-ALTER TABLE `uploaded_files`
-  ADD CONSTRAINT `fk_file_teacher` FOREIGN KEY (`teacher_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
