@@ -1,0 +1,73 @@
+
+body{
+background:#f5f6fa;
+}
+
+/* Sidebar */
+.sidebar{
+height:100vh;
+background:#381747;
+color:white;
+padding-top:20px;
+}
+
+.sidebar a{
+color:white;
+text-decoration:none;
+display:block;
+padding:10px 20px;
+}
+
+.sidebar a:hover{
+background:rgba(255,255,255,0.2);
+border-radius:5px;
+}
+
+.sidebar .submenu{
+padding-left:20px;
+font-size:14px;
+}
+
+/* Top navbar */
+.topbar{
+background:white;
+border-bottom:1px solid #ddd;
+}
+
+/* Dashboard cards */
+.card-box {
+border-radius:10px;
+}
+
+
+
+
+
+.stat-card {
+    border-radius: 16px;
+}
+
+.action-card {
+    transition: 0.2s ease;
+    border-radius: 16px;
+}
+
+.action-card:hover {
+    transform: translateY(-3px);
+}
+
+.dashboard-table-card {
+    height: 500px;
+    border-radius: 16px;
+}
+
+.dashboard-scroll {
+    max-height: 380px;
+    overflow-y: auto;
+}
+
+.dashboard-scroll thead th {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+}
