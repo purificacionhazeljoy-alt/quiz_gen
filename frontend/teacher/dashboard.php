@@ -2,6 +2,11 @@
 session_start();
 
 require_once "../../backend/database.php";
+require_once "../../vendor/autoload.php";
+
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../../');
+$dotenv->load();
+
 
 if (!isset($_SESSION['user_id'])) {
     header("Location: ../../login.php");
@@ -60,7 +65,7 @@ $recentQuizzes = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     <link rel="stylesheet" href="style.css">
 
-        <style>
+    <style>
         .stat-card {
             border-radius: 16px;
         }
@@ -223,23 +228,23 @@ $recentQuizzes = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                                 </tr>
                                             </thead>
 
-                                            <tbody>
+                                            <tbody id="recent-quizzes-body"></tbody>
 
-                                                <?php foreach ($recentQuizzes as $quiz): ?>
+                                            <?php foreach ($recentQuizzes as $quiz): ?>
 
-                                                    <tr>
+                                                <tr>
 
-                                                        <td>
-                                                            <?= htmlspecialchars($quiz['title']) ?>
-                                                        </td>
+                                                    <td>
+                                                        <?= htmlspecialchars($quiz['title']) ?>
+                                                    </td>
 
-                                                        <td>
-                                                            <?= ucfirst($quiz['difficulty']) ?>
-                                                        </td>
+                                                    <td>
+                                                        <?= ucfirst($quiz['difficulty']) ?>
+                                                    </td>
 
-                                                    </tr>
+                                                </tr>
 
-                                                <?php endforeach; ?>
+                                            <?php endforeach; ?>
 
                                             </tbody>
 
@@ -279,7 +284,7 @@ $recentQuizzes = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
                                             </thead>
 
-                                            <tbody>
+                                            <tbody id="recent-attempts-body">
 
                                                 <?php foreach ($recentAttempts as $attempt): ?>
 
@@ -331,6 +336,63 @@ $recentQuizzes = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </div>
         </div>
     </div>
+
+    <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
+
+    <script>
+
+        Pusher.logToConsole = true;
+
+        const pusher = new Pusher("<?= $_ENV['PUSHER_APP_KEY'] ?>", {
+            cluster: "<?= $_ENV['PUSHER_APP_CLUSTER'] ?>"
+        });
+
+        const channel = pusher.subscribe("quiz-channel");
+
+        /* LOAD RECENT QUIZZES */
+        function loadRecentQuizzes() {
+
+            fetch("../pusher-content/recent_quizzes_fetch.php")
+                .then(res => res.text())
+                .then(data => {
+
+                    document.getElementById(
+                        "recent-quizzes-body"
+                    ).innerHTML = data;
+
+                });
+
+        }
+
+        /* LOAD RECENT ATTEMPTS */
+        function loadRecentAttempts() {
+
+            fetch("../pusher-content/recent_attempts_fetch.php")
+                .then(res => res.text())
+                .then(data => {
+
+                    document.getElementById(
+                        "recent-attempts-body"
+                    ).innerHTML = data;
+
+                });
+
+        }
+
+        /* REALTIME EVENT */
+        channel.bind("submission-event", function (data) {
+
+            loadRecentAttempts();
+
+        });
+
+        channel.bind("quiz-created", function (data) {
+
+            loadRecentQuizzes();
+
+        });
+
+    </script>
 </body>
 
 </html>

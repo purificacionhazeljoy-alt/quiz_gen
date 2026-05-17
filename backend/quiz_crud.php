@@ -2,6 +2,9 @@
 session_start();
 require_once "database.php";
 
+require '../vendor/autoload.php';
+
+
 /* ================= CREATE ================= */
 if (isset($_POST['create_quiz'])) {
 
@@ -17,6 +20,16 @@ VALUES (?, ?, ?, ?)
         $_POST['quiz_type'],
         $_POST['difficulty']
     ]);
+
+    require_once "pusher.php";
+
+    $pusher->trigger(
+        'quiz-channel',
+        'quiz-created',
+        [
+            'message' => 'New quiz created'
+        ]
+    );
 
     header("Location: ../frontend/teacher/my_quizzes.php?created=1");
     exit();

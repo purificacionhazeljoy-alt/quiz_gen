@@ -13,7 +13,3 @@ $pusher = new Pusher\Pusher(
   $_ENV['PUSHER_APP_ID'],
   $options
 );
-
-$pusher->trigger('quiz-channel', 'submission-event', [
-    'message' => 'new submission'
-]);
