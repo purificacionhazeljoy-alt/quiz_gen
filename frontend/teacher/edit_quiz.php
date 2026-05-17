@@ -67,16 +67,32 @@ if (!isset($_SESSION['csrf_token'])) {
                         <input type="hidden" name="update_quiz" value="1">
                         <input type="hidden" name="quiz_id" value="<?= $quiz_id ?>">
 
-                        <input type="text" name="title" value="<?= $quiz['title'] ?>">
+                        <div class="mb-3">
+                            <label class="form-label">Quiz Title</label>
 
-                        <input type="number" name="timer" value="<?= $quiz['timer'] ?>">
+                            <input type="text" name="title" class="form-control"
+                                value="<?= htmlspecialchars($quiz['title']) ?>" required>
+                        </div>
 
-                        <select name="status">
-                            <option value="draft">Draft</option>
-                            <option value="published">Published</option>
-                        </select>
+                        <div class="mb-3">
+                            <label class="form-label">Status</label>
 
-                        <button type="submit">Update</button>
+                            <select name="status" class="form-select">
+
+                                <option value="draft" <?= $quiz['status'] == 'draft' ? 'selected' : '' ?>>
+                                    Draft
+                                </option>
+
+                                <option value="published" <?= $quiz['status'] == 'published' ? 'selected' : '' ?>>
+                                    Published
+                                </option>
+
+                            </select>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">
+                            Update Quiz
+                        </button>
 
                     </form>
 
