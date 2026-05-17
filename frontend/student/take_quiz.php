@@ -75,9 +75,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         FROM questions
         WHERE question_id = ?
     ");
-
     $stmt->execute([$question_id]);
-
     $q = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if (!$q) {
@@ -91,78 +89,60 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         WHERE attempt_id = ?
         AND question_id = ?
     ");
-
-    $checkStmt->execute([
-        $attempt_id,
-        $question_id
-    ]);
-
+    $checkStmt->execute([$attempt_id, $question_id]);
     $exists = $checkStmt->fetch();
 
-    // check correctness
+    // DEFAULT: wrong agad
     $isCorrect = 0;
 
-    if (!empty($selected)) {
+    // treat empty answer as "No Answer"
+    if ($selected === '' || $selected === null) {
+        $selected = 'No Answer';
+    } else {
 
         if ($q['question_type'] === 'identification') {
-
             $isCorrect =
-                strtolower(trim($selected))
-                ===
-                strtolower(trim($q['correct_answer']));
-
+                strtolower(trim($selected)) === strtolower(trim($q['correct_answer']));
         } else {
-
-            $isCorrect =
-                $selected === $q['correct_answer'];
+            $isCorrect = ($selected === $q['correct_answer']);
         }
+    }
 
-        // save answer
-        if (!$exists) {
+    // SAVE ANSWER (kahit empty or timeout)
+    if (!$exists) {
 
-            $stmt = $pdo->prepare("
-                INSERT INTO attempt_answers
-                (
-                    attempt_id,
-                    question_id,
-                    selected_answer,
-                    is_correct
-                )
-                VALUES (?, ?, ?, ?)
-            ");
+        $stmt = $pdo->prepare("
+            INSERT INTO attempt_answers
+            (
+                attempt_id,
+                question_id,
+                selected_answer,
+                is_correct
+            )
+            VALUES (?, ?, ?, ?)
+        ");
 
-            $stmt->execute([
-                $attempt_id,
-                $question_id,
-                $selected,
-                $isCorrect
-            ]);
+        $stmt->execute([
+            $attempt_id,
+            $question_id,
+            $selected,
+            $isCorrect
+        ]);
+    }
 
-        }
-
-        // update score
-        if ($isCorrect) {
-            $progress['score']++;
-        }
-        logActivity(
-            $pdo,
-            $_SESSION['user_id'],
-            "Answered question in quiz: " . $quiz['title'],
-            "quiz"
-        );
-
+    // update score ONLY if correct
+    if ($isCorrect) {
+        $progress['score']++;
     }
 
     $progress['index']++;
 
     $pusher->trigger('quiz-channel', 'submission-event', [
-
         'student_id' => $_SESSION['user_id'],
         'quiz_id' => $quiz_id,
         'question' => $q['question'],
-        'answer' => $selected ?: 'No Answer',
+        'answer' => $selected,
         'correct' => $isCorrect
-
     ]);
 
     header("Location: take_quiz.php?id=$quiz_id");
