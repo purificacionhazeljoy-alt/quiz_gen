@@ -3,377 +3,482 @@
 
 <head>
 
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>QuizLab</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<title>QuizLab</title>
 
-    <link rel="stylesheet"
-        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <style>
+<link rel="stylesheet"
+href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<style>
 
-        body {
-            background: #1B0824;
-            color: #F8FAFC;
-            font-family: Arial, sans-serif;
-        }
+/* RESET */
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
 
-        /* NAVBAR */
-        .navbar {
-            padding: 18px 0;
-        }
+html{
+scroll-behavior:smooth;
+}
 
-        .navbar-brand {
-            font-size: 28px;
-            font-weight: bold;
-            color: #fff;
-        }
+body{
+background:#1B0824;
+color:#F8FAFC;
+font-family:Arial, sans-serif;
+overflow-x:hidden;
+}
 
-        .navbar-brand span {
-            color: #EC4899;
-        }
+/* NAVBAR */
+.navbar{
+padding:18px 0;
+}
 
-        .nav-link {
-            color: #F8FAFC !important;
-            margin-left: 20px;
-            transition: 0.3s;
-        }
+.navbar-brand{
+font-size:28px;
+font-weight:800;
+color:#fff;
+}
 
-        .nav-link:hover {
-            color: #EC4899 !important;
-        }
+.navbar-brand span{
+color:#EC4899;
+}
 
-        .btn-login {
-            border: 1px solid #EC4899;
-            color: #fff;
-            padding: 8px 18px;
-            border-radius: 10px;
-            transition: 0.3s;
-        }
+.nav-link{
+color:#F8FAFC !important;
+margin-left:20px;
+transition:0.3s;
+}
 
-        .btn-login:hover {
-            background: #EC4899;
-            color: #fff;
-        }
+.nav-link:hover{
+color:#EC4899 !important;
+}
 
-        .btn-signup {
-            background: #EC4899;
-            color: #fff;
-            padding: 8px 18px;
-            border-radius: 10px;
-            transition: 0.3s;
-        }
+/* BUTTONS */
+.btn-login{
+border:1px solid #EC4899;
+color:#fff;
+padding:8px 18px;
+border-radius:10px;
+}
 
-        .btn-signup:hover {
-            background: #d63d84;
-            color: #fff;
-        }
+.btn-login:hover{
+background:#EC4899;
+}
 
-        .hero {
-            min-height: 90vh;
-            display: flex;
-            align-items: center;
-        }
+.btn-signup{
+background:#EC4899;
+color:#fff;
+padding:8px 18px;
+border-radius:10px;
+}
 
-        .hero h1 {
-            font-size: 100px;
-            font-weight: 800;
-            line-height: 1.1;
-        }
+.btn-signup:hover{
+background:#d63d84;
+}
 
-        .hero h1 span {
-            color: #EC4899;
-        }
+/* HERO */
+.hero{
+min-height:90vh;
+display:flex;
+align-items:center;
+}
 
-        .hero p {
-            color: #cbd5e1;
-            font-size: 18px;
-            margin-top: 20px;
-        }
+.hero h1{
+font-size:100px;
+font-weight:900;
+line-height:1.1;
+}
 
-        .hero-buttons {
-            margin-top: 30px;
-        }
+.hero h1 span{
+color:#EC4899;
+}
 
-        .hero-buttons .btn {
-            padding: 14px 28px;
-            border-radius: 12px;
-            margin-right: 15px;
-            font-weight: bold;
-        }
+.hero p{
+color:#cbd5e1;
+font-size:18px;
+margin-top:20px;
+}
 
-        .btn-primary-custom {
-            background: #2563EB;
-            color: white;
-        }
+.hero-buttons{
+margin-top:30px;
+}
 
-        .btn-primary-custom:hover {
-            background: #1d4ed8;
-            color: white;
-        }
+.hero-buttons .btn{
+padding:14px 28px;
+border-radius:12px;
+margin-right:15px;
+font-weight:bold;
+}
 
-        .btn-secondary-custom {
-            border: 1px solid #fff;
-            color: white;
-        }
+.btn-primary-custom{
+background:#2563EB;
+color:white;
+}
 
-        .btn-secondary-custom:hover {
-            background: white;
-            color: black;
-        }
+.btn-secondary-custom{
+border:1px solid #fff;
+color:white;
+}
 
-        /* FEATURES */
-        .features {
-            padding: 80px 0;
-        }
+/* FEATURES */
+.features{
+padding:80px 0;
+}
 
-        .section-title {
-            text-align: center;
-            margin-bottom: 50px;
-        }
+.section-title{
+text-align:center;
+margin-bottom:50px;
+}
 
-        .section-title h2 {
-            font-size: 42px;
-            font-weight: bold;
-        }
+.section-title h2{
+font-size:42px;
+font-weight:800;
+}
 
-        .feature-card {
-            background: #2A102F;
-            padding: 30px;
-            border-radius: 18px;
-            transition: 0.3s;
-            height: 100%;
-        }
+.feature-card{
+background:#2A102F;
+padding:30px;
+border-radius:18px;
+transition:0.3s;
+}
 
-        .feature-card:hover {
-            transform: translateY(-8px);
-        }
+.feature-card:hover{
+transform:translateY(-8px);
+}
 
-        .feature-icon {
-            font-size: 40px;
-            color: #EC4899;
-            margin-bottom: 20px;
-        }
+.feature-icon{
+font-size:40px;
+color:#EC4899;
+margin-bottom:20px;
+}
 
-        .feature-card h4 {
-            margin-bottom: 15px;
-        }
+/* FOOTER */
+footer{
+padding:30px;
+text-align:center;
+color:#94A3B8;
+border-top:1px solid rgba(255,255,255,0.1);
+}
 
-        .feature-card p {
-            color: #cbd5e1;
-        }
+/* =========================
+   LIVING MODALS DESIGN
+========================= */
 
-        /* FOOTER */
-        footer {
-            padding: 30px 0;
-            text-align: center;
-            color: #94A3B8;
-            border-top: 1px solid rgba(255,255,255,0.1);
-        }
+.modal-backdrop.show{
+backdrop-filter: blur(8px);
+background-color: rgba(0,0,0,0.6);
+}
 
-    </style>
+.modal-dialog{
+max-width:700px;
+animation: popIn 0.25s ease-out;
+}
+
+@keyframes popIn{
+from{transform:scale(0.85);opacity:0;}
+to{transform:scale(1);opacity:1;}
+}
+
+.modal-content{
+background: linear-gradient(135deg, rgba(42,16,47,0.98), rgba(20,5,30,0.98));
+border: 1px solid rgba(236,72,153,0.4);
+border-radius: 22px;
+box-shadow: 0 30px 90px rgba(0,0,0,0.85);
+padding:10px;
+}
+
+.modal-header{
+border-bottom:1px solid rgba(255,255,255,0.08);
+padding:18px 22px;
+}
+
+.modal-title{
+font-size:22px;
+font-weight:900;
+color:#EC4899;
+}
+
+.btn-close-white{
+filter: invert(1);
+}
+
+.modal-body{
+color:#ffffff;
+font-size:16px;
+padding:25px;
+line-height:1.7;
+}
+
+/* CONTACT BOX */
+.contact-box{
+background:rgba(255,255,255,0.06);
+padding:15px;
+border-radius:12px;
+margin-bottom:10px;
+transition:0.3s;
+}
+
+.contact-box:hover{
+background:rgba(255,255,255,0.1);
+transform:translateX(5px);
+}
+
+</style>
 
 </head>
 
 <body>
 
-    <!-- NAVBAR -->
-    <nav class="navbar navbar-expand-lg">
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg">
 
-        <div class="container">
+<div class="container">
 
-            <a class="navbar-brand" href="#">
-                Quiz<span>Lab</span>
-            </a>
+<a class="navbar-brand" href="#">Quiz<span>Lab</span></a>
 
-            <button class="navbar-toggler bg-light" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarNav">
+<button class="navbar-toggler bg-light" data-bs-toggle="collapse" data-bs-target="#nav">
+<span class="navbar-toggler-icon"></span>
+</button>
 
-                <span class="navbar-toggler-icon"></span>
+<div class="collapse navbar-collapse" id="nav">
 
-            </button>
+<ul class="navbar-nav ms-auto align-items-center">
 
-            <div class="collapse navbar-collapse" id="navbarNav">
+<li class="nav-item">
+<a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#homeModal">Home</a>
+</li>
 
-                <ul class="navbar-nav ms-auto align-items-center">
+<li class="nav-item">
+<a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#featuresModal">Features</a>
+</li>
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Home</a>
-                    </li>
+<li class="nav-item">
+<a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#aboutModal">About</a>
+</li>
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Features</a>
-                    </li>
+<li class="nav-item">
+<a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#contactModal">Contact</a>
+</li>
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">About</a>
-                    </li>
+<li class="nav-item ms-3">
+<a href="login.php" class="btn btn-login">Login</a>
+</li>
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Contact</a>
-                    </li>
+<li class="nav-item ms-2">
+<a href="register.php" class="btn btn-signup">Sign Up</a>
+</li>
 
-                    <li class="nav-item ms-3">
-                        <a href="login.php" class="btn btn-login">
-                            Login
-                        </a>
-                    </li>
+</ul>
 
-                    <li class="nav-item ms-2">
-                        <a href="register.php" class="btn btn-signup">
-                            Sign Up
-                        </a>
-                    </li>
+</div>
 
-                </ul>
+</div>
 
-            </div>
+</nav>
 
-        </div>
+<!-- HERO -->
+<section class="hero">
 
-    </nav>
+<div class="container">
 
-    <section class="hero">
+<div class="row align-items-center">
 
-        <div class="container">
+<div class="col-lg-6">
 
-            <div class="row align-items-center">
+<h1>Create <span>Quizzes</span> Instantly</h1>
 
-                <div class="col-lg-6">
+<p>QuizLab helps teachers manage quizzes and students easily with real-time system.</p>
 
-                    <h1>
-                        Create <span>Quizzes</span> Instantly
-                    </h1>
+<div class="hero-buttons">
 
-                    <p>
-                        QuizLab helps teachers create quizzes, manage students,
-                        and track results in real-time with a secure and modern platform.
-                    </p>
+<a href="register.php" class="btn btn-primary-custom">Get Started</a>
 
-                    <div class="hero-buttons">
+<a href="#" class="btn btn-secondary-custom" data-bs-toggle="modal" data-bs-target="#learnMoreModal">
+Learn More
+</a>
 
-                        <a href="register.php" class="btn btn-primary-custom">
-                            Get Started
-                        </a>
+</div>
 
-                        <a href="#" class="btn btn-secondary-custom">
-                            Learn More
-                        </a>
+</div>
 
-                    </div>
+</div>
 
-                </div>
+</div>
 
-                <div class="col-lg-6 text-center">
+</section>
 
-                    <img src="images/hero.png"
-                        class="img-fluid"
-                        width="500">
+<!-- FEATURES -->
+<section class="features">
 
-                </div>
+<div class="container">
 
-            </div>
+<div class="section-title">
+<h2>Why Choose QuizLab?</h2>
+</div>
 
-        </div>
+<div class="row g-4">
 
-    </section>
+<div class="col-md-4">
+<div class="feature-card">
+<div class="feature-icon"><i class="bi bi-file-earmark-text"></i></div>
+<h4>Auto Quiz Generator</h4>
+<p>Upload files and auto-generate quizzes.</p>
+</div>
+</div>
 
-    <!-- FEATURES -->
-    <section class="features">
-
-        <div class="container">
-
-            <div class="section-title">
-
-                <h2>Why Choose QuizLab?</h2>
-
-            </div>
-
-            <div class="row g-4">
-
-                <div class="col-md-4">
-
-                    <div class="feature-card">
-
-                        <div class="feature-icon">
-                            <i class="bi bi-file-earmark-text"></i>
-                        </div>
-
-                        <h4>Auto Quiz Generator</h4>
-
-                        <p>
-                            Upload documents and generate quizzes automatically.
-                        </p>
-
-                    </div>
-
-                </div>
-
-                <div class="col-md-4">
-
-                    <div class="feature-card">
-
-                        <div class="feature-icon">
-                            <i class="bi bi-lightning-charge"></i>
-                        </div>
-
-                        <h4>Real-Time Updates</h4>
-
-                        <p>
-                            Instantly monitor quiz submissions using Pusher.
-                        </p>
-
-                    </div>
-
-                </div>
-
-                <div class="col-md-4">
-
-                    <div class="feature-card">
-
-                        <div class="feature-icon">
-                            <i class="bi bi-shield-lock"></i>
-                        </div>
-
-                        <h4>Secure Platform</h4>
-
-                        <p>
-                            Protected against SQL Injection, XSS, and CSRF attacks.
-                        </p>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </section>
-
-    <!-- FOOTER -->
-    <footer>
-
-        <div class="container">
-
-            <p>
-                © 2026 QuizLab. All Rights Reserved.
-            </p>
-
-        </div>
-
-    </footer>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<div class="col-md-4">
+<div class="feature-card">
+<div class="feature-icon"><i class="bi bi-lightning-charge"></i></div>
+<h4>Real-Time Updates</h4>
+<p>Track results instantly.</p>
+</div>
+</div>
+
+<div class="col-md-4">
+<div class="feature-card">
+<div class="feature-icon"><i class="bi bi-shield-lock"></i></div>
+<h4>Secure System</h4>
+<p>Protected against attacks.</p>
+</div>
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- FOOTER -->
+<footer>
+© 2026 QuizLab. All Rights Reserved.
+</footer>
+
+<!-- MODALS -->
+
+<!-- HOME -->
+<div class="modal fade" id="homeModal">
+<div class="modal-dialog modal-dialog-centered">
+<div class="modal-content">
+<div class="modal-header">
+<h5 class="modal-title">Home</h5>
+<button class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+</div>
+<div class="modal-body">
+Welcome to QuizLab — your smart quiz system.
+</div>
+</div>
+</div>
+</div>
+
+<!-- FEATURES -->
+<div class="modal fade" id="featuresModal">
+<div class="modal-dialog modal-dialog-centered">
+<div class="modal-content">
+<div class="modal-header">
+<h5 class="modal-title">Features</h5>
+<button class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+</div>
+<div class="modal-body">
+✔ Auto Quiz Generator<br>
+✔ Real-time Results<br>
+✔ Secure System
+</div>
+</div>
+</div>
+</div>
+
+<!-- ABOUT -->
+<div class="modal fade" id="aboutModal">
+<div class="modal-dialog modal-dialog-centered">
+<div class="modal-content">
+<div class="modal-header">
+<h5 class="modal-title">About</h5>
+<button class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+</div>
+<div class="modal-body">
+QuizLab is a smart platform for teachers and students to manage quizzes easily.
+</div>
+</div>
+</div>
+</div>
+
+<!-- CONTACT (INFO ONLY) -->
+<div class="modal fade" id="contactModal">
+<div class="modal-dialog modal-dialog-centered">
+<div class="modal-content">
+
+<div class="modal-header">
+<h5 class="modal-title">Contact Us</h5>
+<button class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+</div>
+
+<div class="modal-body">
+
+<div class="contact-box">
+<i class="bi bi-envelope"></i>
+<strong> Email:</strong> support@quizlab.com
+</div>
+
+<div class="contact-box">
+<i class="bi bi-telephone"></i>
+<strong> Phone:</strong> +63 912 345 6789
+</div>
+
+<div class="contact-box">
+<i class="bi bi-facebook"></i>
+<strong> Facebook:</strong> QuizLab Official Page
+</div>
+
+</div>
+
+</div>
+</div>
+</div>
+
+<!-- LEARN MORE -->
+<div class="modal fade" id="learnMoreModal">
+<div class="modal-dialog modal-dialog-centered">
+<div class="modal-content">
+
+<div class="modal-header">
+<h5 class="modal-title">Learn More</h5>
+<button class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+</div>
+
+<div class="modal-body">
+
+<div class="contact-box">
+<strong>🎯 Purpose:</strong><br>
+Simplify quiz creation and student management.
+</div>
+
+<div class="contact-box">
+<strong>⚡ Features:</strong><br>
+Auto Quiz Generator, Real-time Results, Secure System
+</div>
+
+<div class="contact-box">
+<strong>👨‍🏫 Teachers:</strong><br>
+Create quizzes and manage students easily.
+</div>
+
+<div class="contact-box">
+<strong>🎓 Students:</strong><br>
+Take quizzes and view results instantly.
+</div>
+
+</div>
+
+</div>
+</div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
-
 </html>
