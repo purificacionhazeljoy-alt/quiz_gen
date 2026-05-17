@@ -30,14 +30,12 @@ if (isset($_POST['update_quiz'])) {
         UPDATE quizzes
         SET
             title = ?,
-            timer = ?,
             status = ?
         WHERE quiz_id = ?
     ");
 
     $stmt->execute([
         $_POST['title'],
-        $_POST['timer'],
         $_POST['status'],
         $_POST['quiz_id']
     ]);
