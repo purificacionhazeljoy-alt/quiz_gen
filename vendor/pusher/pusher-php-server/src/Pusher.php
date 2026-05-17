@@ -37,7 +37,7 @@ class Pusher implements LoggerAwareInterface, PusherInterface
     ];
 
     /**
-     * @var null|resource
+     * @var ClientInterface|null
      */
     private $client = null; // Guzzle client
 
@@ -135,14 +135,18 @@ class Pusher implements LoggerAwareInterface, PusherInterface
     /**
      * Log a string.
      *
-     * @param string           $msg     The message to log
-     * @param array|\Exception $context [optional] Any extraneous information that does not fit well in a string.
-     * @param string           $level   [optional] Importance of log message, highly recommended to use Psr\Log\LogLevel::{level}
+     * @param string      $msg     The message to log
+     * @param array|null $context [optional] Any extraneous information that does not fit well in a string.
+     * @param string      $level   [optional] Importance of log message, highly recommended to use Psr\Log\LogLevel::{level}
      */
-    private function log(string $msg, array $context = [], string $level = LogLevel::DEBUG): void
+    private function log(string $msg, ?array $context = [], string $level = LogLevel::DEBUG): void
     {
         if (is_null($this->logger)) {
             return;
+        }
+
+        if (is_null($context)) {
+            $context = [];
         }
 
         if ($this->logger instanceof LoggerInterface) {
@@ -444,7 +448,6 @@ class Pusher implements LoggerAwareInterface, PusherInterface
     /**
      * Asynchronously trigger an event by providing event name and payload.
      * Optionally provide a socket ID to exclude a client (most likely the sender).
-     *
      * @param array|string $channels A channel name or an array of channel names to publish the event on.
      * @param string $event
      * @param mixed $data Event data
@@ -721,7 +724,7 @@ class Pusher implements LoggerAwareInterface, PusherInterface
             'X-Pusher-Library' => 'pusher-http-php ' . self::$VERSION
         ];
 
-        $response = $this->client->get(ltrim($path, '/'), [
+        $response = $this->client->request('GET', ltrim($path, '/'), [
             'query' => $signature,
             'http_errors' => false,
             'headers' => $headers,
@@ -773,7 +776,7 @@ class Pusher implements LoggerAwareInterface, PusherInterface
         ];
 
         try {
-            $response = $this->client->post(ltrim($path, '/'), [
+            $response = $this->client->request('POST', ltrim($path, '/'), [
                 'query' => $params_with_signature,
                 'body' => $body,
                 'http_errors' => false,
@@ -782,7 +785,10 @@ class Pusher implements LoggerAwareInterface, PusherInterface
                 'timeout' => $this->settings['timeout']
             ]);
         } catch (ConnectException $e) {
-            throw new ApiErrorException($e->getMessage());
+            return (object)[
+                'success' => false,
+                'message' => $e->getMessage()
+            ];
         }
 
         $status = $response->getStatusCode();
@@ -824,7 +830,7 @@ class Pusher implements LoggerAwareInterface, PusherInterface
             'X-Pusher-Library' => 'pusher-http-php ' . self::$VERSION
         ];
 
-        return $this->client->postAsync(ltrim($path, '/'), [
+        return $this->client->requestAsync('POST', ltrim($path, '/'), [
             'query' => $params_with_signature,
             'body' => $body,
             'http_errors' => false,
@@ -1154,10 +1160,7 @@ class Pusher implements LoggerAwareInterface, PusherInterface
     /**
      * Returns the body of a trigger batch events request serialized as string ready to be sent in a request
      *
-     * @param array|string $channels A channel name or an array of channel names to publish the event on.
-     * @param string $event
-     * @param mixed $data Event data
-     * @param array $params [optional]
+     * @param array $batch [optional] An array of batch events
      * @param bool $already_encoded [optional]
      *
      * @throws PusherException
