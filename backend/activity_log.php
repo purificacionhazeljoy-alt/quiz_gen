@@ -2,20 +2,30 @@
 
 function logActivity($pdo, $user_id, $activity, $type = 'quiz')
 {
-    $stmt = $pdo->prepare("
-        INSERT INTO activity_logs
-        (
-            user_id,
-            activity,
-            log_type
-        )
-        VALUES (?, ?, ?)
-    ");
+    try {
 
-    $stmt->execute([
-        $user_id,
-        $activity,
-        $type
-    ]);
+        $stmt = $pdo->prepare("
+            CALL AddLog(
+                :user_id,
+                :activity,
+                :type
+            )
+        ");
+
+        $stmt->execute([
+            ':user_id'  => $user_id,
+            ':activity' => $activity,
+            ':type'     => $type
+        ]);
+
+        // Important for MySQL stored procedures
+        while ($stmt->nextRowset()) {;}
+
+    } catch (PDOException $e) {
+
+        error_log("Activity Log Error: " . $e->getMessage());
+
+    }
 }
+
 ?>
