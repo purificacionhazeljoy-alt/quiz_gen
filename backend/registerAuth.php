@@ -5,8 +5,6 @@ session_start();
 require_once __DIR__ . '/database.php';
 
 
-
-
 /* =========================
    ONLY ALLOW POST
 ========================= */
@@ -16,6 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     header("Location: ../register.php");
     exit();
 }
+
 
 /* =========================
    CSRF VALIDATION
@@ -30,6 +29,7 @@ if (
     exit();
 }
 
+
 /* =========================
    SANITIZE INPUTS
 ========================= */
@@ -41,6 +41,7 @@ $email = trim($_POST['email']);
 $password = $_POST['password'];
 $confirm_password = $_POST['confirm_password'];
 $role = $_POST['role'];
+
 
 /* =========================
    VALIDATION
@@ -58,6 +59,7 @@ if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     exit();
 }
 
+
 /* =========================
    VALID ROLES ONLY
 ========================= */
@@ -69,6 +71,7 @@ if (!in_array($role, $allowed_roles)) {
     header("Location: ../register.php?error=invalid_role");
     exit();
 }
+
 
 /* =========================
    CHECK EMAIL EXISTENCE
@@ -89,6 +92,7 @@ if ($check_stmt->rowCount() > 0) {
     exit();
 }
 
+
 /* =========================
    HASH PASSWORD
 ========================= */
@@ -98,47 +102,57 @@ $hashed_password = password_hash(
     PASSWORD_BCRYPT
 );
 
+
 /* =========================
-   INSERT USER
+   INSERT USER USING PROCEDURE
 ========================= */
 
-$insert_stmt = $pdo->prepare(
+try {
 
-    "INSERT INTO users (
+    $insert_stmt = $pdo->prepare("
 
-        firstname,
-        middlename,
-        lastname,
-        email,
-        password,
-        role
+        CALL AddUser(
 
-    )
+            :firstname,
+            :middlename,
+            :lastname,
+            :email,
+            :password,
+            :role
 
-    VALUES (?, ?, ?, ?, ?, ?)"
-);
+        )
 
-$success = $insert_stmt->execute([
+    ");
 
-    $firstname,
-    $middlename,
-    $lastname,
-    $email,
-    $hashed_password,
-    $role
-]);
+    $success = $insert_stmt->execute([
 
-if ($success) {
+        ':firstname' => $firstname,
+        ':middlename' => $middlename,
+        ':lastname' => $lastname,
+        ':email' => $email,
+        ':password' => $hashed_password,
+        ':role' => $role
+    ]);
 
-    // clear session AFTER successful register
-    session_unset();
-    session_destroy();
+    // Important for MySQL procedures
+    while ($insert_stmt->nextRowset()) {;}
 
-    header("Location: ../login.php?success=registered");
-    exit();
+    if ($success) {
 
-} else {
+        session_unset();
+        session_destroy();
 
-    header("Location: ../register.php?error=registration_failed");
-    exit();
+        header("Location: ../login.php?success=registered");
+        exit();
+
+    } else {
+
+        header("Location: ../register.php?error=registration_failed");
+        exit();
+    }
+
+} catch (PDOException $e) {
+
+    die("Registration Error: " . $e->getMessage());
 }
+?>
