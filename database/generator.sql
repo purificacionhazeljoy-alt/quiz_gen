@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: May 17, 2026 at 04:03 PM
+-- Host: 127.0.0.1:3308
+-- Generation Time: May 18, 2026 at 09:41 AM
 -- Server version: 10.4.32-MariaDB
--- PHP Version: 8.0.30
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -172,7 +172,30 @@ INSERT INTO `activity_logs` (`log_id`, `user_id`, `activity`, `created_at`, `log
 (56, 3, 'Answered question in quiz: hards', '2026-05-16 13:44:54', 'quiz'),
 (57, 3, 'Finished quiz: hards', '2026-05-16 13:44:54', 'quiz'),
 (58, 2, 'User logged in', '2026-05-16 14:05:22', 'login'),
-(12345, 2, 'act 1', '2026-05-17 11:32:17', 'quiz');
+(12345, 2, 'act 1', '2026-05-17 11:32:17', 'quiz'),
+(12354, 1, 'User logged in', '2026-05-18 00:40:27', 'login'),
+(12355, 4, 'User logged in', '2026-05-18 00:41:50', 'login'),
+(12356, 4, 'Started quiz: stored', '2026-05-18 00:42:32', 'quiz'),
+(12357, 4, 'Finished quiz: stored', '2026-05-18 00:43:00', 'quiz'),
+(12358, 3, 'User logged in', '2026-05-18 00:45:04', 'login'),
+(12359, 2, 'User logged in', '2026-05-18 00:48:26', 'login'),
+(12360, 3, 'User logged in', '2026-05-18 00:51:38', 'login'),
+(12361, 4, 'User logged in', '2026-05-18 00:55:16', 'login'),
+(12362, 3, 'User logged in', '2026-05-18 01:20:16', 'login'),
+(12365, 3, 'User logged in', '2026-05-18 01:33:14', 'login'),
+(12366, 2, 'User logged in', '2026-05-18 01:33:31', 'login'),
+(12367, 2, 'User logged in', '2026-05-18 01:37:22', 'login'),
+(12368, 1, 'User logged in', '2026-05-18 01:38:37', 'login'),
+(12369, 4, 'User logged in', '2026-05-18 01:39:00', 'login'),
+(12370, 4, 'Started quiz: stored', '2026-05-18 01:39:06', 'quiz'),
+(12371, 4, 'Finished quiz: stored', '2026-05-18 01:41:21', 'quiz'),
+(12372, 3, 'User logged in', '2026-05-18 02:02:16', 'login'),
+(12373, 4, 'User logged in', '2026-05-18 02:12:25', 'login'),
+(12374, 3, 'User logged in', '2026-05-18 02:18:01', 'login'),
+(12375, 3, 'User logged in', '2026-05-18 02:19:13', 'login'),
+(12376, 4, 'User logged in', '2026-05-18 02:21:44', 'login'),
+(12377, 4, 'User logged in', '2026-05-18 02:24:48', 'login'),
+(12378, 4, 'User logged in', '2026-05-18 07:30:42', 'login');
 
 -- --------------------------------------------------------
 
@@ -193,72 +216,26 @@ CREATE TABLE `attempt_answers` (
 --
 
 INSERT INTO `attempt_answers` (`answer_id`, `attempt_id`, `question_id`, `selected_answer`, `is_correct`) VALUES
-(111, 35, 107, 'C', 1),
-(112, 35, 109, 'B', 1),
-(113, 35, 111, 'D', 1),
-(114, 35, 112, 'D', 1),
-(115, 35, 113, 'B', 1),
-(116, 35, 114, 'C', 1),
-(117, 35, 115, 'C', 1),
-(118, 35, 116, 'C', 1),
-(119, 35, 117, 'D', 1),
-(120, 35, 118, 'A', 0),
-(121, 36, 107, 'C', 1),
-(122, 36, 109, 'B', 1),
-(123, 36, 111, 'D', 1),
-(124, 36, 112, 'D', 1),
-(125, 36, 113, 'B', 1),
-(126, 36, 114, 'C', 1),
-(127, 36, 115, 'C', 1),
-(128, 36, 116, 'C', 1),
-(129, 36, 117, 'D', 1),
-(130, 36, 118, 'C', 1),
-(131, 37, 121, '$_SERVER', 1),
-(132, 38, 124, 'B', 0),
-(133, 41, 124, 'A', 0),
-(134, 42, 124, 'B', 0),
-(135, 43, 124, 'False', 1),
-(136, 44, 124, 'False', 1),
-(137, 46, 124, 'False', 1),
-(138, 50, 107, 'C', 1),
-(139, 50, 109, 'B', 1),
-(140, 50, 111, 'D', 1),
-(141, 50, 112, 'D', 1),
-(142, 50, 113, 'B', 1),
-(143, 50, 114, 'C', 1),
-(144, 50, 115, 'C', 1),
-(145, 50, 116, 'C', 1),
-(146, 50, 117, 'D', 1),
-(147, 50, 118, 'C', 1),
-(148, 51, 107, 'A', 0),
-(149, 51, 109, 'B', 1),
-(150, 51, 111, 'B', 0),
-(151, 51, 112, 'A', 0),
-(152, 51, 113, 'B', 1),
-(153, 51, 114, 'C', 1),
-(154, 51, 115, 'A', 0),
-(155, 51, 116, 'C', 1),
-(156, 51, 117, 'D', 1),
-(157, 51, 118, 'B', 0),
-(158, 52, 107, 'B', 0),
-(159, 52, 109, 'C', 0),
-(160, 52, 111, 'B', 0),
-(161, 52, 112, 'B', 0),
-(162, 52, 113, 'C', 0),
-(163, 52, 115, 'A', 0),
-(164, 52, 116, 'B', 0),
-(165, 52, 117, 'D', 1),
-(166, 52, 118, 'C', 1),
-(167, 53, 109, 'B', 1),
-(168, 53, 111, 'C', 0),
-(169, 53, 112, 'C', 0),
-(170, 53, 113, 'B', 1),
-(171, 53, 114, 'C', 1),
-(172, 53, 115, 'B', 0),
-(173, 53, 116, 'C', 1),
-(174, 53, 117, 'D', 1),
-(175, 53, 118, 'C', 1),
-(176, 54, 121, '$_SERVER', 1);
+(177, 55, 107, 'C', 1),
+(178, 55, 109, 'B', 1),
+(179, 55, 111, 'D', 1),
+(180, 55, 112, 'D', 1),
+(181, 55, 113, 'D', 0),
+(182, 55, 114, 'C', 1),
+(183, 55, 115, 'C', 1),
+(184, 55, 116, 'C', 1),
+(185, 55, 117, 'D', 1),
+(186, 55, 118, 'C', 1),
+(187, 56, 107, 'C', 1),
+(188, 56, 109, 'B', 1),
+(189, 56, 111, 'No Answer', 0),
+(190, 56, 112, 'No Answer', 0),
+(191, 56, 113, 'No Answer', 0),
+(192, 56, 114, 'No Answer', 0),
+(193, 56, 115, 'No Answer', 0),
+(194, 56, 116, 'No Answer', 0),
+(195, 56, 117, 'No Answer', 0),
+(196, 56, 118, 'No Answer', 0);
 
 -- --------------------------------------------------------
 
@@ -369,26 +346,8 @@ CREATE TABLE `quiz_attempts` (
 --
 
 INSERT INTO `quiz_attempts` (`attempt_id`, `student_id`, `quiz_id`, `score`, `total_questions`, `status`, `submitted_at`) VALUES
-(35, 3, 29, 9, 10, 'submitted', '2026-05-15 04:26:52'),
-(36, 4, 29, 10, 10, 'submitted', '2026-05-15 04:32:50'),
-(37, 3, 38, 1, 1, 'submitted', '2026-05-16 08:01:01'),
-(38, 3, 39, 0, 1, 'submitted', '2026-05-16 08:06:53'),
-(39, 3, 29, 0, 0, 'ongoing', '2026-05-16 08:07:01'),
-(40, 3, 39, 0, 1, 'submitted', '2026-05-16 08:07:20'),
-(41, 3, 39, 0, 1, 'submitted', '2026-05-16 08:11:50'),
-(42, 3, 39, 0, 1, 'submitted', '2026-05-16 11:30:10'),
-(43, 3, 39, 1, 1, 'submitted', '2026-05-16 11:35:40'),
-(44, 3, 39, 1, 1, 'submitted', '2026-05-16 11:37:59'),
-(45, 3, 39, 0, 1, 'submitted', '2026-05-16 11:38:28'),
-(46, 3, 39, 1, 1, 'submitted', '2026-05-16 11:41:28'),
-(47, 3, 39, 0, 1, 'submitted', '2026-05-16 11:51:06'),
-(48, 3, 39, 0, 1, 'submitted', '2026-05-16 11:52:02'),
-(49, 3, 38, 0, 1, 'submitted', '2026-05-16 11:52:08'),
-(50, 3, 29, 10, 10, 'submitted', '2026-05-16 13:32:44'),
-(51, 3, 29, 5, 10, 'submitted', '2026-05-16 13:39:03'),
-(52, 4, 29, 2, 10, 'submitted', '2026-05-16 13:40:40'),
-(53, 3, 29, 6, 10, 'submitted', '2026-05-16 13:43:17'),
-(54, 3, 38, 1, 1, 'submitted', '2026-05-16 13:44:31');
+(55, 4, 29, 9, 10, 'submitted', '2026-05-18 00:42:32'),
+(56, 4, 29, 2, 10, 'submitted', '2026-05-18 01:39:06');
 
 -- --------------------------------------------------------
 
@@ -436,7 +395,7 @@ INSERT INTO `users` (`user_id`, `firstname`, `middlename`, `lastname`, `email`, 
 (1, 'Hazel', 'Octavio', 'Purificacion', 'hazel21@gmail.com', '$2y$10$HDHE22CfOB86m2uY6vE9tOb7XtGp113phSSn1s0WTNe/Q8yeB665a', 'admin', NULL, 'active', '2026-05-10 23:51:01'),
 (2, 'Elmira', 'Manzano', 'Miranda', 'emira@gmail.com', '$2y$10$56boHuQaZ.s4xEVovPSi2uXrHiXB8Bv9TfX079gOcv3zNECSfHK/6', 'teacher', NULL, 'active', '2026-05-11 01:11:28'),
 (3, 'Chrizen', 'G.', 'Alcantara', 'alcantara@gmail.com', '$2y$10$F6dWmk6OST8Le8sDyV8V5eamLGFrwnL2RfYvqbFjGy.fml86dx.Oy', 'student', NULL, 'active', '2026-05-11 01:40:20'),
-(4, 'als', NULL, '', 'al@gmail.com', '$2y$10$F6dWmk6OST8Le8sDyV8V5eamLGFrwnL2RfYvqbFjGy.fml86dx.Oy', 'student', NULL, 'active', '2026-05-14 00:50:32');
+(4, 'als', NULL, 'bb', 'al@gmail.com', '$2y$10$F6dWmk6OST8Le8sDyV8V5eamLGFrwnL2RfYvqbFjGy.fml86dx.Oy', 'teacher', NULL, 'active', '2026-05-14 00:50:32');
 
 --
 -- Triggers `users`
@@ -530,13 +489,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `activity_logs`
 --
 ALTER TABLE `activity_logs`
-  MODIFY `log_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12354;
+  MODIFY `log_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12379;
 
 --
 -- AUTO_INCREMENT for table `attempt_answers`
 --
 ALTER TABLE `attempt_answers`
-  MODIFY `answer_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=177;
+  MODIFY `answer_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=197;
 
 --
 -- AUTO_INCREMENT for table `cheating_logs`
@@ -560,7 +519,7 @@ ALTER TABLE `quizzes`
 -- AUTO_INCREMENT for table `quiz_attempts`
 --
 ALTER TABLE `quiz_attempts`
-  MODIFY `attempt_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
+  MODIFY `attempt_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
 
 --
 -- AUTO_INCREMENT for table `quiz_questions`
