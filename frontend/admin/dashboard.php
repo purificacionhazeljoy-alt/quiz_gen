@@ -172,7 +172,7 @@ $recentUsers = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
                     <div class="col-md-4">
 
-                        <a href="user.php" class="text-decoration-none">
+                        <a href="users.php" class="text-decoration-none">
 
                             <div class="card border-0 shadow-sm action-card">
 
@@ -198,7 +198,7 @@ $recentUsers = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
                     <div class="col-md-4">
 
-                        <a href="#" class="text-decoration-none">
+                        <a href="quizzes.php" class="text-decoration-none">
 
                             <div class="card border-0 shadow-sm action-card">
 
@@ -224,7 +224,7 @@ $recentUsers = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
                     <div class="col-md-4">
 
-                        <a href="#" class="text-decoration-none">
+                        <a href="logs.php" class="text-decoration-none">
 
                             <div class="card border-0 shadow-sm action-card">
 
