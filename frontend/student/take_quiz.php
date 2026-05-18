@@ -54,6 +54,20 @@ if (!isset($_SESSION['attempt_id'][$quiz_id])) {
 
 $attempt_id = $_SESSION['attempt_id'][$quiz_id];
 
+// Verify attempt exists in database (handle stale sessions)
+$verifyStmt = $pdo->prepare("SELECT attempt_id FROM quiz_attempts WHERE attempt_id = ? AND student_id = ? AND quiz_id = ?");
+$verifyStmt->execute([$attempt_id, $_SESSION['user_id'], $quiz_id]);
+if (!$verifyStmt->fetch()) {
+    // Attempt doesn't exist, create a new one
+    $stmt = $pdo->prepare("
+        INSERT INTO quiz_attempts (student_id, quiz_id, status)
+        VALUES (?, ?, 'ongoing')
+    ");
+    $stmt->execute([$_SESSION['user_id'], $quiz_id]);
+    $attempt_id = $pdo->lastInsertId();
+    $_SESSION['attempt_id'][$quiz_id] = $attempt_id;
+}
+
 
 if (!isset($_SESSION['quiz_progress'][$quiz_id])) {
     $_SESSION['quiz_progress'][$quiz_id] = [
@@ -108,7 +122,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
-    // SAVE ANSWER
+    // SAVE ANSWER (kahit empty or timeout)
     if (!$exists) {
 
         $stmt = $pdo->prepare("
@@ -126,7 +140,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $attempt_id,
             $question_id,
             $selected,
-            $isCorrect
+            (int)$isCorrect
         ]);
     }
 
