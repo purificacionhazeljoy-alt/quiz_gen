@@ -16,6 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         die("CSRF validation failed");
     }
 
+
     // Input sanitization
     $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
     $password = $_POST['password'];
@@ -29,7 +30,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             lastname,
             email,
             password,
-            role
+            role,
+            status
         FROM users
         WHERE email = ?
         LIMIT 1
@@ -40,6 +42,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if ($user) {
+
+        // CHECK STATUS
+        if ($user['status'] !== 'active') {
+
+            header("Location: ../login.php?error=inactive_account");
+            exit();
+        }
 
         // Verify password
         if (password_verify($password, $user['password'])) {
