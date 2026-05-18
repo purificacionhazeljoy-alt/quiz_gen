@@ -1,61 +1,19 @@
 <?php
 session_start();
-
-require_once "database.php";
-require_once "activity_log.php";
-
-header("Content-Type: application/json");
-
-if (!isset($_SESSION['user_id'])) {
-    exit;
-}
+require_once '../../config/db.php'; // adjust mo path mo
 
 $data = json_decode(file_get_contents("php://input"), true);
 
-$student_id = $_SESSION['user_id'];
-$quiz_id = $data['quiz_id'] ?? null;
-$activity = $data['activity'] ?? 'unknown';
+$student_id = $_SESSION['student_id'];
+$quiz_id = $_SESSION['quiz_id'];
+$activity = $data['activity'];
 
-if (!$quiz_id) {
-
-    echo json_encode([
-        "status" => "error"
-    ]);
-
-    exit;
-}
-
-/* =========================
-   SAVE CHEATING LOG
-========================= */
-
-$stmt = $pdo->prepare("
-    INSERT INTO cheating_logs
-    (
-        student_id,
-        quiz_id,
-        activity
-    )
-    VALUES (?, ?, ?)
-");
-
+$stmt = $pdo->prepare("CALL AddCheat(:student_id, :quiz_id, :activity)");
 $stmt->execute([
-    $student_id,
-    $quiz_id,
-    $activity
+    ':student_id' => $student_id,
+    ':quiz_id' => $quiz_id,
+    ':activity' => $activity
 ]);
 
-/* =========================
-   SAVE ACTIVITY LOG
-========================= */
-
-logActivity(
-    $pdo,
-    $student_id,
-    "Cheating detected: " . $activity,
-    "security"
-);
-
-echo json_encode([
-    "status" => "logged"
-]);
+echo json_encode(["status" => "logged"]);
+?>
