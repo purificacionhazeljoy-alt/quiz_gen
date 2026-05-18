@@ -108,7 +108,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
-    // SAVE ANSWER (kahit empty or timeout)
+    // SAVE ANSWER
     if (!$exists) {
 
         $stmt = $pdo->prepare("
