@@ -51,17 +51,6 @@ if (isset($_SESSION['user_id'])) {
             border-radius: 18px;
         }
 
-        .logo {
-            width: 120px;
-            height: 120px;
-            object-fit: cover;
-            border-radius: 50%;
-            background: #fff;
-            padding: 8px;
-            border: 2px solid #EC4899;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        }
-
         .form-control {
             height: 45px;
         }
@@ -81,12 +70,10 @@ if (isset($_SESSION['user_id'])) {
         <div class="card login-card shadow-lg p-4 border-0">
 
             <!-- LOGO -->
-            <div class="text-center mb-4">
+            <div class="mb-3 text-center">
 
-                <img src="images/logo.png" class="logo mb-3">
-
-                <h2 class="fw-bold">
-                    QuizLab
+                <h2 class="fw-bold" style="letter-spacing:1px;">
+                    Quiz<span style="color:#EC4899;">Lab</span>
                 </h2>
 
                 <p class="text-muted">

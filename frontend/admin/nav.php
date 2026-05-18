@@ -2,10 +2,14 @@
 
 <div class="sidebar p-3 bg-dark text-white vh-100">
 
-    <h5 class="text-center mb-4" >
-        
-        <i class="bi bi-mortarboard-fill"></i> QuizLab
-    </h5><br>
+        <div class="text-center mb-4">
+        <div class="fw-bold fs-4">
+            <i></i>
+            Quiz<span style="color:#EC4899;">Lab</span>
+        </div>
+
+        <small class="text-muted">Quiz Management System</small>
+    </div>
 
     <a href="dashboard.php" class="<?= ($current_page == 'dashboard.php') ? 'active-link' : '' ?>">
         <i class="bi bi-speedometer2"></i> Dashboard
