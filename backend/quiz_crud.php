@@ -1,78 +1,130 @@
 <?php
-session_start();
-require_once "database.php";
 
+session_start();
+
+require_once "database.php";
 require '../vendor/autoload.php';
 
 
 /* ================= CREATE ================= */
 if (isset($_POST['create_quiz'])) {
 
-    $stmt = $pdo->prepare("
-        INSERT INTO quizzes (teacher_id, title, quiz_type, difficulty)
-VALUES (?, ?, ?, ?)
-    ");
+    try {
 
+        $stmt = $pdo->prepare("
+            CALL AddQuiz(
+                :teacher_id,
+                :title,
+                :quiz_type,
+                :difficulty
+            )
+        ");
 
-    $stmt->execute([
-        $_SESSION['user_id'],
-        $_POST['title'],
-        $_POST['quiz_type'],
-        $_POST['difficulty']
-    ]);
+        $stmt->execute([
+            ':teacher_id' => $_SESSION['user_id'],
+            ':title' => $_POST['title'],
+            ':quiz_type' => $_POST['quiz_type'],
+            ':difficulty' => $_POST['difficulty']
+        ]);
 
-    require_once "pusher.php";
+        // Important for MySQL procedures
+        while ($stmt->nextRowset()) {;}
 
-    $pusher->trigger(
-        'quiz-channel',
-        'quiz-created',
-        [
-            'message' => 'New quiz created'
-        ]
-    );
+        require_once "pusher.php";
 
-    header("Location: ../frontend/teacher/my_quizzes.php?created=1");
-    exit();
+        $pusher->trigger(
+            'quiz-channel',
+            'quiz-created',
+            [
+                'message' => 'New quiz created'
+            ]
+        );
+
+        header("Location: ../frontend/teacher/my_quizzes.php?created=1");
+        exit();
+
+    } catch (PDOException $e) {
+
+        die("Create Quiz Error: " . $e->getMessage());
+    }
 }
 
 
 /* ================= UPDATE ================= */
 if (isset($_POST['update_quiz'])) {
 
-    $stmt = $pdo->prepare("
-        UPDATE quizzes
-        SET
-            title = ?,
-            status = ?
-        WHERE quiz_id = ?
-    ");
+    try {
 
-    $stmt->execute([
-        $_POST['title'],
-        $_POST['status'],
-        $_POST['quiz_id']
-    ]);
+        $stmt = $pdo->prepare("
+            UPDATE quizzes
+            SET
+                title = ?,
+                status = ?
+            WHERE quiz_id = ?
+        ");
 
-    header("Location: ../frontend/teacher/my_quizzes.php?updated=1");
-    exit();
+        $stmt->execute([
+            $_POST['title'],
+            $_POST['status'],
+            $_POST['quiz_id']
+        ]);
+
+        header("Location: ../frontend/teacher/my_quizzes.php?updated=1");
+        exit();
+
+    } catch (PDOException $e) {
+
+        die("Update Quiz Error: " . $e->getMessage());
+    }
 }
+
 
 /* ================= DELETE ================= */
 if (isset($_POST['delete_quiz'])) {
 
-    $stmt = $pdo->prepare("DELETE FROM quizzes WHERE quiz_id = ?");
-    $stmt->execute([$_POST['quiz_id']]);
+    try {
 
-    header("Location: ../frontend/teacher/my_quizzes.php?deleted=1");
-    exit();
+        $stmt = $pdo->prepare("
+            DELETE FROM quizzes
+            WHERE quiz_id = ?
+        ");
+
+        $stmt->execute([
+            $_POST['quiz_id']
+        ]);
+
+        header("Location: ../frontend/teacher/my_quizzes.php?deleted=1");
+        exit();
+
+    } catch (PDOException $e) {
+
+        die("Delete Quiz Error: " . $e->getMessage());
+    }
 }
 
+
+/* ================= PUBLISH ================= */
 if (isset($_POST['publish_quiz'])) {
 
-    $stmt = $pdo->prepare("UPDATE quizzes SET status = 'published' WHERE quiz_id = ?");
-    $stmt->execute([$_POST['quiz_id']]);
+    try {
 
-    header("Location: ../frontend/teacher/my_quizzes.php?published=1");
-    exit();
+        $stmt = $pdo->prepare("
+            UPDATE quizzes
+            SET status = 'published'
+            WHERE quiz_id = ?
+        ");
+
+        $stmt->execute([
+            $_POST['quiz_id']
+        ]);
+
+        header("Location: ../frontend/teacher/my_quizzes.php?published=1");
+        exit();
+
+    } catch (PDOException $e) {
+
+        die("Publish Quiz Error: " . $e->getMessage());
+    }
 }
+
 ?>
