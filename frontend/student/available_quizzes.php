@@ -103,11 +103,6 @@ $quizzes = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                             <?= ucfirst($quiz['difficulty']); ?>
                                         </p>
 
-                                        <p class="mb-3">
-                                            <strong>Timer:</strong>
-                                            <?= $quiz['timer']; ?> mins
-                                        </p>
-
                                         <div class="mt-auto">
 
                                             <a href="take_quiz.php?id=<?= $quiz['quiz_id']; ?>"
